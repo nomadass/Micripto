@@ -436,6 +436,7 @@
     <button class="view-btn active" data-view="cotizaciones">Cotizaciones</button>
     <button class="view-btn" data-view="invertir">Invertir (Rendimiento %)</button>
     <button class="view-btn" data-view="criptos">Criptomonedas</button>
+    <button class="view-btn" data-view="defi">DeFi</button>
   </nav>
 
   <!-- VISTA 1: COTIZACIONES -->
@@ -522,9 +523,43 @@
     </div>
   </div>
 
+  <!-- VISTA 4: FINANZAS DESCENTRALIZADAS (DEFI) -->
+  <div class="view-section" id="view-defi">
+    <h2 class="section-title" style="margin-bottom:14px;">Protocolos DeFi por valor total bloqueado (TVL)</h2>
+    <p style="font-size:13px; color:var(--muted); margin-bottom:20px;">
+      Datos en vivo de DeFiLlama: Aave, Uniswap, PancakeSwap, Curve y otros protocolos descentralizados.
+    </p>
+    <div class="grid" id="defiProtocolGrid">
+      <p class="na-text" style="grid-column:1/-1; text-align:center; padding:20px;">Cargando protocolos DeFi...</p>
+    </div>
+
+    <h2 class="section-title" style="margin-bottom:14px;">Mejores pools por rendimiento (APY)</h2>
+    <p style="font-size:13px; color:var(--muted); margin-bottom:20px;">
+      Pools de liquidez y lending con mayor APY dentro de los protocolos listados arriba (mínimo de liquidez aplicado para filtrar pools poco confiables).
+    </p>
+    <div class="crypto-table-wrap">
+      <div class="crypto-table-container">
+        <table class="crypto-table">
+          <thead>
+            <tr>
+              <th>Protocolo</th>
+              <th>Pool</th>
+              <th>Chain</th>
+              <th>TVL</th>
+              <th>APY</th>
+            </tr>
+          </thead>
+          <tbody id="defiPoolsBody">
+            <tr><td colspan="5" style="text-align:center; color:var(--muted); padding:30px;">Cargando pools DeFi...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
   <footer>
     <p>
-      Cotizaciones de dólar oficial/blue/MEP/CCL desde <a href="https://dolarapi.com" target="_blank" rel="noopener">DolarAPI</a>. Datos de stablecoins en vivo desde la <a href="https://docs.criptoya.com/argentina/" target="_blank" rel="noopener">API pública de CriptoYa</a>. Precios globales y variaciones provistos por <a href="https://www.coingecko.com" target="_blank" rel="noopener">CoinGecko</a>. "Comprás a" es el precio al que el exchange vende (ask); "Vendés a" es el precio al que el exchange compra (bid). Esto no es asesoramiento financiero — compará siempre en la app del exchange antes de operar.
+      Cotizaciones de dólar oficial/blue/MEP/CCL desde <a href="https://dolarapi.com" target="_blank" rel="noopener">DolarAPI</a>. Datos de stablecoins en vivo desde la <a href="https://docs.criptoya.com/argentina/" target="_blank" rel="noopener">API pública de CriptoYa</a>. Precios globales y variaciones provistos por <a href="https://www.coingecko.com" target="_blank" rel="noopener">CoinGecko</a>. Datos de protocolos y pools DeFi provistos por <a href="https://defillama.com" target="_blank" rel="noopener">DeFiLlama</a>. "Comprás a" es el precio al que el exchange vende (ask); "Vendés a" es el precio al que el exchange compra (bid). Esto no es asesoramiento financiero — compará siempre en la app del exchange antes de operar.
     </p>
   </footer>
 </main>
@@ -886,6 +921,132 @@
     }
   }
 
+  // ---------- DeFi (DeFiLlama) ----------
+  // Lista de protocolos descentralizados a destacar. Cada entrada matchea
+  // por substring contra el nombre/slug que devuelve la API (no exige el slug exacto).
+  const DEFI_TARGETS = [
+    { key:'aave', label:'Aave', color:'#b6509e' },
+    { key:'uniswap', label:'Uniswap', color:'#ff007a' },
+    { key:'pancakeswap', label:'PancakeSwap', color:'#d1884f' },
+    { key:'curve', label:'Curve', color:'#3465a4' },
+    { key:'compound', label:'Compound', color:'#00d395' },
+    { key:'lido', label:'Lido', color:'#3ba9ea' },
+    { key:'makerdao', label:'MakerDAO', color:'#1aab9b' },
+    { key:'balancer', label:'Balancer', color:'#536dfe' },
+  ];
+  const MIN_POOL_TVL = 1_000_000; // filtra pools con poca liquidez / poco confiables
+
+  function fmtUsdCompact(n){
+    if(n === null || n === undefined || isNaN(n)) return '—';
+    return new Intl.NumberFormat('en-US', { notation:'compact', maximumFractionDigits:2 }).format(n);
+  }
+
+  function matchesDefiTarget(name){
+    if(!name) return null;
+    const lower = name.toLowerCase();
+    return DEFI_TARGETS.find(t => lower.includes(t.key)) || null;
+  }
+
+  async function loadDefiProtocols(){
+    const grid = $('#defiProtocolGrid');
+    try{
+      const res = await fetch('https://api.llama.fi/protocols', { cache:'no-store' });
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      const all = await res.json();
+
+      // Por cada protocolo objetivo, nos quedamos con la entrada de mayor TVL
+      // (ej: "Aave V2", "Aave V3" -> mostramos la más grande bajo "Aave").
+      const best = {};
+      all.forEach(p => {
+        const target = matchesDefiTarget(p.name) || matchesDefiTarget(p.slug);
+        if(!target) return;
+        if(!best[target.key] || (p.tvl || 0) > (best[target.key].tvl || 0)){
+          best[target.key] = p;
+        }
+      });
+
+      const found = DEFI_TARGETS
+        .map(t => ({ target:t, protocol:best[t.key] }))
+        .filter(x => x.protocol)
+        .sort((a, b) => (b.protocol.tvl || 0) - (a.protocol.tvl || 0));
+
+      if(found.length === 0) throw new Error('Sin protocolos encontrados');
+
+      grid.innerHTML = '';
+      found.forEach(({ target, protocol }) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        const change1d = protocol.change_1d;
+        const changeClass = change1d >= 0 ? 'positive' : 'negative';
+        const changeStr = (change1d === undefined || change1d === null || isNaN(change1d))
+          ? '—' : (change1d > 0 ? '+' : '') + change1d.toFixed(2) + '%';
+
+        card.innerHTML = `
+          <div>
+            <div class="card-top">
+              <div class="badge" style="background:${target.color}">
+                <img src="https://icons.llamao.fi/icons/protocols/${protocol.slug}.png" alt="${target.label}" width="20" height="20" onerror="this.outerHTML='${target.label.slice(0,2).toUpperCase()}'">
+              </div>
+              <div>
+                <div class="card-name">${target.label}</div>
+                <div class="card-sub">${protocol.category || 'DeFi'} · ${protocol.chain || 'Multichain'}</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row"><span class="lbl">TVL</span><span class="val mono">$${fmtUsdCompact(protocol.tvl)}</span></div>
+              <div class="divider"></div>
+              <div class="row"><span class="lbl">Variación 24h</span><span class="val mono crypto-change ${changeClass}">${changeStr}</span></div>
+            </div>
+          </div>
+          <a href="https://defillama.com/protocol/${protocol.slug}" target="_blank" rel="noopener" class="exchange-link">Ver en DeFiLlama ↗</a>
+        `;
+        grid.appendChild(card);
+      });
+    } catch(err){
+      console.error('Error al cargar protocolos DeFi:', err);
+      grid.innerHTML = `<p class="na-text" style="grid-column:1/-1; text-align:center; padding:20px; color:var(--venta);">No se pudo cargar la información de protocolos DeFi en este momento.</p>`;
+    }
+  }
+
+  async function loadDefiPools(){
+    const tbody = $('#defiPoolsBody');
+    try{
+      const res = await fetch('https://yields.llama.fi/pools', { cache:'no-store' });
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      const json = await res.json();
+      const pools = json.data || [];
+
+      const matched = pools
+        .map(p => ({ pool:p, target: matchesDefiTarget(p.project) }))
+        .filter(x => x.target && (x.pool.tvlUsd || 0) >= MIN_POOL_TVL && x.pool.apy !== null && !isNaN(x.pool.apy))
+        .sort((a, b) => b.pool.apy - a.pool.apy)
+        .slice(0, 15);
+
+      if(matched.length === 0) throw new Error('Sin pools encontrados');
+
+      tbody.innerHTML = '';
+      matched.forEach(({ pool, target }) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="font-weight:600;">${target.label}</td>
+          <td class="mono">${pool.symbol || '—'}</td>
+          <td>${pool.chain || '—'}</td>
+          <td class="mono">$${fmtUsdCompact(pool.tvlUsd)}</td>
+          <td class="crypto-change positive mono">${pool.apy.toFixed(2)}%</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    } catch(err){
+      console.error('Error al cargar pools DeFi:', err);
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:var(--venta); padding:30px;">No se pudo cargar la información de pools DeFi en este momento.</td></tr>`;
+    }
+  }
+
+  function loadDefi(){
+    loadDefiProtocols();
+    loadDefiPools();
+  }
+
   async function load(){
     const btn = $('#refreshBtn');
     btn.classList.add('spinning');
@@ -932,6 +1093,7 @@
   $('#refreshBtn').addEventListener('click', () => {
     load();
     loadCryptoMarket();
+    loadDefi();
   });
   $('#retryBtn').addEventListener('click', load);
 
@@ -942,8 +1104,10 @@
   load();
   loadDolar();
   loadCryptoMarket();
+  loadDefi();
   scheduleRefresh();
   setInterval(loadDolar, REFRESH_MS);
+  setInterval(loadDefi, REFRESH_MS * 4); // DeFi cambia más lento, refrescamos cada ~2min
 })();
 </script>
 </body>
