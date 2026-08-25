@@ -349,6 +349,64 @@
   .view-section{display:none;}
   .view-section.active{display:block;}
 
+  /* ---------- DeFi: tema terminal / matrix ---------- */
+  #view-defi{
+    position:relative;
+    overflow:hidden;
+    border-radius:var(--radius);
+    background:#0a0d0a;
+    border:1px solid rgba(92,212,155,0.18);
+    box-shadow:0 0 40px rgba(92,212,155,0.06), var(--shadow-md);
+    padding:20px 22px 26px;
+  }
+  .matrix-canvas{
+    position:absolute; inset:0; width:100%; height:100%;
+    z-index:0; opacity:0.55; pointer-events:none;
+  }
+  .defi-content{position:relative; z-index:1;}
+
+  .defi-terminal-bar{
+    display:flex; align-items:center; gap:7px; margin-bottom:20px; padding-bottom:12px;
+    border-bottom:1px solid rgba(92,212,155,0.15);
+  }
+  .defi-terminal-bar span.dot-red, .defi-terminal-bar span.dot-yellow, .defi-terminal-bar span.dot-green{
+    width:9px; height:9px; border-radius:50%; display:inline-block;
+  }
+  .dot-red{background:#f37860;}
+  .dot-yellow{background:#e0c341;}
+  .dot-green{background:#5cd49b;}
+  .defi-terminal-label{
+    margin-left:8px; font-size:12px; color:var(--compra); opacity:0.75; letter-spacing:0.03em;
+  }
+
+  #view-defi .section-title{
+    color:var(--compra); text-shadow:0 0 10px rgba(92,212,155,0.35);
+  }
+  #view-defi .card{
+    background:rgba(10,14,12,0.72); backdrop-filter:blur(3px);
+    border-color:rgba(92,212,155,0.16);
+  }
+  #view-defi .card:hover{
+    border-color:rgba(92,212,155,0.5);
+    box-shadow:0 0 26px rgba(92,212,155,0.22);
+  }
+  #view-defi .badge{box-shadow:0 0 14px rgba(92,212,155,0.25);}
+  #view-defi .exchange-link{background:rgba(92,212,155,0.06); border-color:rgba(92,212,155,0.2);}
+  #view-defi .exchange-link:hover{
+    border-color:var(--compra); color:var(--compra);
+    box-shadow:0 0 18px rgba(92,212,155,0.25);
+  }
+  #view-defi .crypto-table-wrap{
+    background:rgba(10,14,12,0.72); border-color:rgba(92,212,155,0.16);
+  }
+  #view-defi .crypto-table th{background:rgba(92,212,155,0.08); color:var(--compra);}
+  #view-defi .crypto-table tr:hover td{background:rgba(92,212,155,0.05);}
+  #view-defi .na-text{color:var(--compra); opacity:0.6;}
+
+  @media (prefers-reduced-motion: reduce){
+    .matrix-canvas{display:none;}
+  }
+
   footer{
     max-width:1180px; margin:0 auto; padding:0 24px 50px; color:var(--muted); font-size:12px; line-height:1.7;
   }
@@ -368,6 +426,7 @@
   }
 
   @media (max-width:640px){
+    #view-defi{padding:14px 12px 18px;}
     .header-inner{flex-direction:column; align-items:flex-start; gap:10px;}
     .header-right{width:100%; justify-content:space-between;}
     .brand h1{font-size:16px;}
@@ -525,34 +584,42 @@
 
   <!-- VISTA 4: FINANZAS DESCENTRALIZADAS (DEFI) -->
   <div class="view-section" id="view-defi">
-    <h2 class="section-title" style="margin-bottom:14px;">Protocolos DeFi por valor total bloqueado (TVL)</h2>
-    <p style="font-size:13px; color:var(--muted); margin-bottom:20px;">
-      Datos en vivo de DeFiLlama: Aave, Uniswap, PancakeSwap, Curve y otros protocolos descentralizados.
-    </p>
-    <div class="grid" id="defiProtocolGrid">
-      <p class="na-text" style="grid-column:1/-1; text-align:center; padding:20px;">Cargando protocolos DeFi...</p>
-    </div>
+    <canvas id="matrixCanvas" class="matrix-canvas"></canvas>
+    <div class="defi-content">
+      <div class="defi-terminal-bar">
+        <span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span>
+        <span class="defi-terminal-label mono">~/defi/mainnet</span>
+      </div>
 
-    <h2 class="section-title" style="margin-bottom:14px;">Mejores pools por rendimiento (APY)</h2>
-    <p style="font-size:13px; color:var(--muted); margin-bottom:20px;">
-      Pools de liquidez y lending con mayor APY dentro de los protocolos listados arriba (mínimo de liquidez aplicado para filtrar pools poco confiables).
-    </p>
-    <div class="crypto-table-wrap">
-      <div class="crypto-table-container">
-        <table class="crypto-table">
-          <thead>
-            <tr>
-              <th>Protocolo</th>
-              <th>Pool</th>
-              <th>Chain</th>
-              <th>TVL</th>
-              <th>APY</th>
-            </tr>
-          </thead>
-          <tbody id="defiPoolsBody">
-            <tr><td colspan="5" style="text-align:center; color:var(--muted); padding:30px;">Cargando pools DeFi...</td></tr>
-          </tbody>
-        </table>
+      <h2 class="section-title" style="margin-bottom:14px;">Protocolos DeFi por valor total bloqueado (TVL)</h2>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:20px;">
+        Datos en vivo de DeFiLlama: Aave, Uniswap, PancakeSwap, Curve y otros protocolos descentralizados.
+      </p>
+      <div class="grid" id="defiProtocolGrid">
+        <p class="na-text" style="grid-column:1/-1; text-align:center; padding:20px;">Cargando protocolos DeFi...</p>
+      </div>
+
+      <h2 class="section-title" style="margin-bottom:14px;">Mejores pools por rendimiento (APY)</h2>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:20px;">
+        Pools de liquidez y lending con mayor APY dentro de los protocolos listados arriba (mínimo de liquidez aplicado para filtrar pools poco confiables).
+      </p>
+      <div class="crypto-table-wrap">
+        <div class="crypto-table-container">
+          <table class="crypto-table">
+            <thead>
+              <tr>
+                <th>Protocolo</th>
+                <th>Pool</th>
+                <th>Chain</th>
+                <th>TVL</th>
+                <th>APY</th>
+              </tr>
+            </thead>
+            <tbody id="defiPoolsBody">
+              <tr><td colspan="5" style="text-align:center; color:var(--muted); padding:30px;">Cargando pools DeFi...</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -1047,6 +1114,84 @@
     loadDefiPools();
   }
 
+  // ---------- Efecto Matrix (canvas) para la vista DeFi ----------
+  const MATRIX_CHARS = 'アイウエオカキクケコサシスセソタチツテトナニヌネノ0123456789$€₿ETHBTCDEFIAPYTVL'.split('');
+  const MATRIX_FONT_SIZE = 15;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let matrixCtx = null;
+  let matrixDrops = [];
+  let matrixWidth = 0, matrixHeight = 0, matrixColumns = 0;
+  let matrixIntervalId = null;
+  let matrixResizeRaf = null;
+
+  function setupMatrixCanvas(){
+    const canvas = document.getElementById('matrixCanvas');
+    if(!canvas) return false;
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    if(rect.width === 0 || rect.height === 0) return false;
+
+    matrixWidth = rect.width;
+    matrixHeight = rect.height;
+    canvas.width = matrixWidth * dpr;
+    canvas.height = matrixHeight * dpr;
+    matrixCtx = canvas.getContext('2d');
+    matrixCtx.setTransform(1, 0, 0, 1, 0, 0);
+    matrixCtx.scale(dpr, dpr);
+    matrixCtx.fillStyle = '#0a0d0a';
+    matrixCtx.fillRect(0, 0, matrixWidth, matrixHeight);
+
+    matrixColumns = Math.floor(matrixWidth / MATRIX_FONT_SIZE);
+    matrixDrops = new Array(matrixColumns).fill(0).map(() => Math.random() * -40);
+    return true;
+  }
+
+  function drawMatrixFrame(){
+    if(!matrixCtx) return;
+    matrixCtx.fillStyle = 'rgba(10,13,10,0.16)';
+    matrixCtx.fillRect(0, 0, matrixWidth, matrixHeight);
+    matrixCtx.font = MATRIX_FONT_SIZE + 'px "JetBrains Mono", monospace';
+    matrixCtx.textBaseline = 'top';
+
+    for(let i = 0; i < matrixColumns; i++){
+      const char = MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
+      const x = i * MATRIX_FONT_SIZE;
+      const y = matrixDrops[i] * MATRIX_FONT_SIZE;
+
+      matrixCtx.fillStyle = 'rgba(226,255,240,0.85)'; // cabeza clara
+      matrixCtx.fillText(char, x, y);
+      matrixCtx.fillStyle = 'rgba(92,212,155,0.55)'; // rastro verde de marca
+      matrixCtx.fillText(char, x, y - MATRIX_FONT_SIZE);
+
+      if(y > matrixHeight && Math.random() > 0.975){
+        matrixDrops[i] = 0;
+      }
+      matrixDrops[i]++;
+    }
+  }
+
+  function startMatrix(){
+    if(prefersReducedMotion || matrixIntervalId) return;
+    if(!setupMatrixCanvas()) return;
+    matrixIntervalId = setInterval(drawMatrixFrame, 55);
+  }
+
+  function stopMatrix(){
+    if(matrixIntervalId){ clearInterval(matrixIntervalId); matrixIntervalId = null; }
+  }
+
+  window.addEventListener('resize', () => {
+    if(!matrixIntervalId) return; // solo importa si está corriendo
+    if(matrixResizeRaf) cancelAnimationFrame(matrixResizeRaf);
+    matrixResizeRaf = requestAnimationFrame(() => setupMatrixCanvas());
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if(document.hidden) stopMatrix();
+    else if($('#view-defi').classList.contains('active')) startMatrix();
+  });
+
   async function load(){
     const btn = $('#refreshBtn');
     btn.classList.add('spinning');
@@ -1078,6 +1223,12 @@
       btn.classList.add('active');
       const viewId = 'view-' + btn.dataset.view;
       $('#' + viewId).classList.add('active');
+
+      if(btn.dataset.view === 'defi'){
+        requestAnimationFrame(startMatrix); // esperar a que el canvas ya sea visible/medible
+      } else {
+        stopMatrix();
+      }
     });
   });
 
