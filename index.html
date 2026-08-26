@@ -201,7 +201,6 @@
   const MAIN_EXCHANGES = [
     { id:'binancep2p', name:'Binance', sub:'P2P', color:'#f0b90b', domain:'binance.com', url:'https://binance.com', yieldPct: { usdt: '3.5%', usdc: '3.0%', dai: '2.8%' } },
     { id:'bybitp2p',   name:'Bybit',   sub:'P2P', color:'#f7a600', domain:'bybit.com', url:'https://www.bybit.com/invite?ref=2DLEPK&medium=referral&utm_campaign=evergreen&share_to=post', isRef: true, yieldPct: { usdt: '4.0%', usdc: '3.8%', dai: 'N/A' } },
-    { id:'bingx',      name:'BingX',   sub:'P2P', color:'#2153f3', domain:'bingx.com', url:'https://bingx.com', yieldPct: { usdt: '5.0%', usdc: '4.5%', dai: 'N/A' } },
     { id:'okexp2p',    name:'OKX',     sub:'P2P', color:'#3a3f4a', domain:'okx.com', url:'https://okx.com/join/28412745', isRef: true, yieldPct: { usdt: '3.8%', usdc: '3.5%', dai: 'N/A' } },
     { id:'nexo',       name:'Nexo',    sub:'Earn Base', color:'#0052ff', domain:'nexo.com', url:'https://nexo.com/ref/aymuw70s32?src=android-link', isRef: true, yieldPct: { usdt: '9.0%', usdc: '9.0%', dai: '9.0%' } },
     { id:'lemoncash',  name:'Lemon',   sub:'App', color:'#8ec400', domain:'lemon.me', url:'https://lemon.me', yieldPct: { usdt: '4.5%', usdc: '4.5%', dai: '4.0%' } },
@@ -262,6 +261,12 @@
     return name.replace(/[^A-Za-z0-9]/g,'').slice(0,2).toUpperCase();
   }
 
+  // Los links de referido llevan "sponsored nofollow" para que Google no los
+  // trate como recomendaciones editoriales orgánicas (evita penalizaciones de SEO).
+  function linkRel(ex){
+    return ex.isRef ? 'noopener sponsored nofollow' : 'noopener';
+  }
+
   function parsePct(str){
     if(!str || str === 'N/A') return -1;
     return parseFloat(str.replace('%',''));
@@ -311,7 +316,7 @@
             <div class="row yield"><span class="lbl">DAI Ganancia Anual</span><span class="val mono">${yieldDai}</span></div>
           </div>
         </div>
-        <a href="${ex.url}" target="_blank" rel="noopener" class="exchange-link">Ir a ${ex.name} ↗</a>
+        <a href="${ex.url}" target="_blank" rel="${linkRel(ex)}" class="exchange-link">Ir a ${ex.name} ↗</a>
       `;
 
       yieldGrid.appendChild(card);
@@ -397,7 +402,7 @@
             }
           </div>
         </div>
-        <a href="${ex.url}" target="_blank" rel="noopener" class="exchange-link">Ir a ${ex.name} ↗</a>
+        <a href="${ex.url}" target="_blank" rel="${linkRel(ex)}" class="exchange-link">Ir a ${ex.name} ↗</a>
       `;
 
       if(isAvailable){
@@ -437,7 +442,7 @@
         <span class="name">${ex.name}</span>
         <span class="val num compra">${d?.ask ? fmt(d.ask) : '—'}</span>
         <span class="val num venta">${d?.bid ? fmt(d.bid) : '—'}</span>
-        <span class="link-cell"><a href="${ex.url}" target="_blank" rel="noopener">Ir ↗</a></span>
+        <span class="link-cell"><a href="${ex.url}" target="_blank" rel="${linkRel(ex)}">Ir ↗</a></span>
       `;
       othersBody.appendChild(row);
     });
@@ -557,14 +562,14 @@
   // Lista de protocolos descentralizados a destacar. Cada entrada matchea
   // por substring contra el nombre/slug que devuelve la API (no exige el slug exacto).
   const DEFI_TARGETS = [
-    { key:'aave', label:'Aave', color:'#b6509e' },
-    { key:'uniswap', label:'Uniswap', color:'#ff007a' },
-    { key:'pancakeswap', label:'PancakeSwap', color:'#d1884f' },
-    { key:'curve', label:'Curve', color:'#3465a4' },
-    { key:'compound', label:'Compound', color:'#00d395' },
-    { key:'lido', label:'Lido', color:'#3ba9ea' },
-    { key:'makerdao', label:'MakerDAO', color:'#1aab9b' },
-    { key:'balancer', label:'Balancer', color:'#536dfe' },
+    { key:'aave', label:'Aave', color:'#b6509e', url:'https://aave.com' },
+    { key:'uniswap', label:'Uniswap', color:'#ff007a', url:'https://uniswap.org' },
+    { key:'pancakeswap', label:'PancakeSwap', color:'#d1884f', url:'https://pancakeswap.finance' },
+    { key:'curve', label:'Curve', color:'#3465a4', url:'https://curve.fi' },
+    { key:'compound', label:'Compound', color:'#00d395', url:'https://compound.finance' },
+    { key:'lido', label:'Lido', color:'#3ba9ea', url:'https://lido.fi' },
+    { key:'makerdao', label:'MakerDAO (Sky)', color:'#1aab9b', url:'https://sky.money' },
+    { key:'balancer', label:'Balancer', color:'#536dfe', url:'https://balancer.fi' },
   ];
   const MIN_POOL_TVL = 1_000_000; // filtra pools con poca liquidez / poco confiables
 
@@ -630,7 +635,7 @@
               <div class="row"><span class="lbl">Variación 24h</span><span class="val mono crypto-change ${changeClass}">${changeStr}</span></div>
             </div>
           </div>
-          <a href="https://defillama.com/protocol/${protocol.slug}" target="_blank" rel="noopener" class="exchange-link">Ver en DeFiLlama ↗</a>
+          <a href="${target.url}" target="_blank" rel="noopener" class="exchange-link">Ir a ${target.label} ↗</a>
         `;
         grid.appendChild(card);
       });
