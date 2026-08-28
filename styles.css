@@ -469,3 +469,251 @@
     .grid{grid-template-columns:1fr 1fr;}
     .ribbon-value .cur{display:none;}
   }
+  /* ============================================================
+   PREGUNTAS FRECUENTES (FAQ) — pegar al final de styles.css
+   ============================================================ */
+
+.faq-section{
+  margin-top: 8px;
+  margin-bottom: 30px;
+}
+
+.faq-list{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.faq-item{
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 4px 18px;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.faq-item:hover{
+  border-color: rgba(212,171,52,0.3);
+}
+
+.faq-item[open]{
+  border-color: rgba(212,171,52,0.35);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.faq-item summary{
+  cursor: pointer;
+  list-style: none;
+  padding: 16px 0;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.faq-item summary::-webkit-details-marker{
+  display: none;
+}
+
+.faq-item summary::after{
+  content: '+';
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--mustard);
+  flex-shrink: 0;
+  transition: transform .25s ease;
+}
+
+.faq-item[open] summary::after{
+  content: '–';
+  transform: rotate(180deg);
+}
+
+.faq-answer{
+  padding: 0 0 18px;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--muted);
+  animation: fadeIn .25s ease;
+}
+
+.faq-answer p{
+  margin: 0 0 10px;
+}
+.faq-answer p:last-child{
+  margin-bottom: 0;
+}
+
+.faq-answer ul{
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.faq-answer b{
+  color: var(--text);
+}
+
+@media (max-width: 640px){
+  .faq-item summary{
+    font-size: 13.5px;
+    padding: 13px 0;
+  }
+  .faq-answer{
+    font-size: 13px;
+  }
+}
+/* ============================================================
+   FORMULARIO DE CONTACTO — 
+   ============================================================ */
+
+.contact-section{
+  max-width: 620px;
+}
+
+.contact-form{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-row{
+  display: flex;
+  gap: 14px;
+  width: 100%;
+}
+
+.contact-field{
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.contact-field label{
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.contact-field input,
+.contact-field textarea{
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13.5px;
+  color: var(--text);
+  resize: vertical;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.contact-field input:focus,
+.contact-field textarea:focus{
+  outline: none;
+  border-color: var(--mustard-dim);
+  box-shadow: 0 0 0 3px rgba(212,171,52,0.12);
+}
+
+.contact-field input::placeholder,
+.contact-field textarea::placeholder{
+  color: var(--muted);
+  opacity: 0.6;
+}
+
+/* honeypot: invisible para personas, visible para bots simples */
+.contact-honeypot{
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0,0,0,0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.contact-actions{
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.contact-submit{
+  background: var(--mustard);
+  color: #14161c;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 22px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 13.5px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform .15s ease, box-shadow .2s ease, opacity .2s ease;
+  box-shadow: 0 4px 14px rgba(212,171,52,0.25);
+}
+
+.contact-submit:hover:not(:disabled){
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(212,171,52,0.35);
+}
+
+.contact-submit:active:not(:disabled){
+  transform: scale(0.97);
+}
+
+.contact-submit:disabled{
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.contact-status{
+  font-size: 13px;
+  margin: 0;
+}
+
+.contact-status.ok{
+  color: var(--compra);
+}
+
+.contact-status.error{
+  color: var(--venta);
+}
+
+.footer-contact-line{
+  margin-top: 10px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.footer-contact-line a{
+  color: var(--mustard);
+  font-weight: 600;
+  transition: opacity .15s ease;
+}
+
+.footer-contact-line a:hover{
+  opacity: 0.75;
+}
+
+@media (max-width: 640px){
+  .contact-row{
+    flex-direction: column;
+    gap: 0;
+  }
+}
