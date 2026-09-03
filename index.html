@@ -607,7 +607,7 @@
     { id:'okexp2p',    name:'OKX',     sub:'P2P', color:'#3a3f4a', domain:'okx.com', url:'https://okx.com/join/28412745', isRef: true, yieldPct: { usdt: '3.8%', usdc: '3.5%', dai: 'N/A' } },
     { id:'nexo',       name:'Nexo',    sub:'Earn Base', color:'#0052ff', domain:'nexo.com', url:'https://nexo.com/ref/aymuw70s32?src=android-link', isRef: true, yieldPct: { usdt: '9.0%', usdc: '9.0%', dai: '9.0%' } },
     { id:'lemoncash',  name:'Lemon',   sub:'App', color:'#8ec400', domain:'lemon.me', url:'https://lemon.me', yieldPct: { usdt: '4.5%', usdc: '4.5%', dai: '4.0%' } },
-    { id:'belo',       name:'Belo',    sub:'App', color:'#7b61ff', domain:'belo.app', url:'https://belo.app', yieldPct: { usdt: '4.0%', usdc: '4.0%', dai: '3.5%' } },
+    { id:'belo',       name:'Belo',    sub:'App', color:'#7b61ff', domain:'belo.app', url:'https://belo.app', yieldPct: { usdt: '10.0%', usdc: '3.4%', dai: '3.5%' } },
     { id:'ripio',      name:'Ripio',   sub:'App', color:'#00d1b2', domain:'ripio.com', url:'https://ripio.com', yieldPct: { usdt: '3.5%', usdc: '3.2%', dai: 'N/A' } },
     { id:'astropay',   name:'AstroPay',sub:'App', color:'#ff5a5f', domain:'astropay.com', url:'https://astropay.com', yieldPct: { usdt: 'N/A', usdc: 'N/A', dai: 'N/A' } },
   ];
@@ -627,17 +627,18 @@
   // Plataformas no bancarizadas con rendimiento en pesos (ARS). Algunas ya
   // aparecen arriba operando stablecoins; otras son fintechs 100% en pesos.
   const ARS_PLATFORMS = [
-    { id:'mercadopago',  name:'Mercado Pago', sub:'Billetera', color:'#00a3e0', domain:'mercadopago.com.ar', url:'https://mercadopago.com.ar', yieldArs: '19,0%' },
-    { id:'uala',         name:'Ualá',         sub:'Billetera', color:'#5c2ec4', domain:'uala.com.ar', url:'https://uala.com.ar', yieldArs: '21,0%' },
-    { id:'naranjax',     name:'Naranja X',    sub:'Billetera', color:'#ff6600', domain:'naranjax.com', url:'https://naranjax.com', yieldArs: '19,0%' },
-    { id:'personalpay',  name:'Personal Pay', sub:'Billetera', color:'#0033a0', domain:'personalpay.com.ar', url:'https://personalpay.com.ar', yieldArs: '17,4%' },
-    { id:'claropay',     name:'Claro Pay',    sub:'Billetera', color:'#e2001a', domain:'claropay.com.ar', url:'https://claropay.com.ar', yieldArs: '19,3%' },
-    { id:'cocoscrypto',  name:'Cocos Capital',sub:'FCI / App', color:'#3a3f4a', domain:'cocos.capital', url:'https://cocos.capital', yieldArs: '20,03%' },
-    { id:'ripio',        name:'Ripio',        sub:'App',       color:'#00d1b2', domain:'ripio.com', url:'https://ripio.com', yieldArs: '22,0%' },
-    { id:'lemoncash',    name:'Lemon',        sub:'App',       color:'#8ec400', domain:'lemon.me', url:'https://lemon.me', yieldArs: '19,94%' },
-    { id:'belo',         name:'Belo',         sub:'App',       color:'#7b61ff', domain:'belo.app', url:'https://belo.app', yieldArs: '19,1%' },
-    { id:'fiwind',       name:'Fiwind',       sub:'App',       color:'#3a3f4a', domain:'fiwind.io', url:'https://fiwind.io', yieldArs: '18,0%' },
-    { id:'letsbit',      name:"Let's Bit",    sub:'Exchange',  color:'#3a3f4a', domain:'letsbit.io', url:'https://letsbit.io', yieldArs: '19,0%' },
+    { id:'mercadopago',  name:'Mercado Pago', sub:'Billetera', color:'#00a3e0', domain:'mercadopago.com.ar', url:'https://mercadopago.com.ar', yieldArs: '32.0%' },
+    { id:'uala',         name:'Ualá',         sub:'Billetera', color:'#5c2ec4', domain:'uala.com.ar', url:'https://uala.com.ar', yieldArs: '30.0%' },
+    { id:'naranjax',     name:'Naranja X',    sub:'Billetera', color:'#ff6600', domain:'naranjax.com', url:'https://naranjax.com', yieldArs: '29.0%' },
+    { id:'personalpay',  name:'Personal Pay', sub:'Billetera', color:'#0033a0', domain:'personalpay.com.ar', url:'https://personalpay.com.ar', yieldArs: '28.0%' },
+    { id:'claropay',     name:'Claro Pay',    sub:'Billetera', color:'#e2001a', domain:'claropay.com.ar', url:'https://claropay.com.ar', yieldArs: '27.5%' },
+    { id:'cocoscrypto',  name:'Cocos Capital',sub:'FCI / App', color:'#3a3f4a', domain:'cocos.capital', url:'https://cocos.capital', yieldArs: '33.0%' },
+    { id:'buenbit',      name:'Buenbit',      sub:'Exchange',  color:'#3a3f4a', domain:'buenbit.com', url:'https://buenbit.com', yieldArs: '31.0%' },
+    { id:'ripio',        name:'Ripio',        sub:'App',       color:'#00d1b2', domain:'ripio.com', url:'https://ripio.com', yieldArs: '29.5%' },
+    { id:'lemoncash',    name:'Lemon',        sub:'App',       color:'#8ec400', domain:'lemon.me', url:'https://lemon.me', yieldArs: '28.0%' },
+    { id:'belo',         name:'Belo',         sub:'App',       color:'#7b61ff', domain:'belo.app', url:'https://belo.app', yieldArs: '27.0%' },
+    { id:'fiwind',       name:'Fiwind',       sub:'App',       color:'#3a3f4a', domain:'fiwind.io', url:'https://fiwind.io', yieldArs: '26.0%' },
+    { id:'letsbit',      name:"Let's Bit",    sub:'Exchange',  color:'#3a3f4a', domain:'letsbit.io', url:'https://letsbit.io', yieldArs: '25.0%' },
   ];
 
   const VOLUME = 100;
