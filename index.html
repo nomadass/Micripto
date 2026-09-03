@@ -226,7 +226,8 @@
   <!-- NAVEGACIÓN SUPERIOR -->
   <nav class="view-nav">
     <button class="view-btn active" data-view="cotizaciones">Cotizaciones</button>
-    <button class="view-btn" data-view="invertir">Invertir (Rendimiento %)</button>
+    <button class="view-btn" data-view="invertir">Invertir en Cripto USD</button>
+    <button class="view-btn" data-view="invertir-ars">Invertir en ARS</button>
     <button class="view-btn" data-view="criptos">Criptomonedas</button>
     <button class="view-btn" data-view="defi">DeFi</button>
   </nav>
@@ -370,6 +371,51 @@
           <summary>¿Estos rendimientos están garantizados?</summary>
           <div class="faq-answer">
             <p>No. Son tasas variables que la plataforma puede reducir en cualquier momento, muchas veces sin demasiado aviso previo. A diferencia de un plazo fijo tradicional, que asegura una tasa fija durante todo el plazo pactado, acá el porcentaje que ves hoy puede no ser el mismo mañana.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+  </div>
+
+  <!-- VISTA 2B: INVERTIR EN ARS (billeteras y apps no bancarizadas) -->
+  <div class="view-section" id="view-invertir-ars">
+    <h2 class="section-title" style="margin-bottom:14px;">Rendimiento estimado en pesos (TNA/APY %)</h2>
+    <p style="font-size:13px; color:var(--muted); margin-bottom:20px;">
+      Aclaración: el rendimiento en pesos (TNA/APY %) mostrado es una estimación variable para el nivel base de cada billetera o app y puede cambiar en cualquier momento según los términos de cada plataforma.
+    </p>
+    <div class="grid" id="arsYieldGrid"></div>
+
+    <section class="faq-section" aria-labelledby="faq-title-invertir-ars">
+      <h2 class="section-title" id="faq-title-invertir-ars" style="margin-bottom:14px;">Preguntas frecuentes sobre inversión en pesos</h2>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>¿Tasa garantizada?</summary>
+          <div class="faq-answer">
+            <p>No. La TNA/APY que mostramos es <b>variable</b>: cada billetera o app puede subirla o bajarla en cualquier momento, sin previo aviso y sin que exista ningún compromiso contractual de mantenerla fija, a diferencia de un plazo fijo tradicional.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Disponibilidad?</summary>
+          <div class="faq-answer">
+            <p>En la gran mayoría de estas billeteras y apps el dinero queda disponible al instante: podés retirarlo, transferirlo o usarlo para pagar cuando quieras, sin plazos de espera. Aun así, es buena práctica confirmar las condiciones específicas dentro de cada app, ya que algunas pueden tener excepciones puntuales.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Cuándo cobro?</summary>
+          <div class="faq-answer">
+            <p>El rendimiento generalmente se acredita de forma diaria sobre el saldo que mantengas en la cuenta, y se ve reflejado directamente en tu saldo disponible. La forma exacta de liquidación (diaria, mensual) puede variar según la plataforma, así que conviene revisarlo en la app correspondiente.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Tengo algún riesgo de perder dinero?</summary>
+          <div class="faq-answer">
+            <p>Sí, existe <b>riesgo de contraparte</b>: estás confiando tus pesos a una empresa privada (fintech, exchange o billetera), no a un banco regulado con garantía de depósitos del Banco Central. Si la empresa tiene problemas financieros, sufre un hackeo o quiebra, podrías perder los fondos depositados. También puede haber devaluación del peso, que afecta el poder de compra aunque el saldo nominal crezca.</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Lleva impuestos o AFIP/ARCA?</summary>
+          <div class="faq-answer">
+            <p>Los rendimientos en pesos generados por estas cuentas remuneradas pueden estar alcanzados por Ganancias y otros tributos según tu situación fiscal, y los movimientos quedan reportados por las plataformas a ARCA (ex AFIP) como el resto de tus cuentas. La normativa cambia con frecuencia y depende de cada caso particular, por lo que conviene consultar con un contador para tu situación específica.</p>
           </div>
         </details>
       </div>
@@ -578,6 +624,22 @@
     { id:'cocoscrypto',  name:'Cocos Crypto', domain:'cocos.capital', url:'https://cocos.capital', yieldPct: { usdt: 'N/A', usdc: 'N/A', dai: 'N/A' } },
   ];
 
+  // Plataformas no bancarizadas con rendimiento en pesos (ARS). Algunas ya
+  // aparecen arriba operando stablecoins; otras son fintechs 100% en pesos.
+  const ARS_PLATFORMS = [
+    { id:'mercadopago',  name:'Mercado Pago', sub:'Billetera', color:'#00a3e0', domain:'mercadopago.com.ar', url:'https://mercadopago.com.ar', yieldArs: '19,0%' },
+    { id:'uala',         name:'Ualá',         sub:'Billetera', color:'#5c2ec4', domain:'uala.com.ar', url:'https://uala.com.ar', yieldArs: '21,0%' },
+    { id:'naranjax',     name:'Naranja X',    sub:'Billetera', color:'#ff6600', domain:'naranjax.com', url:'https://naranjax.com', yieldArs: '19,0%' },
+    { id:'personalpay',  name:'Personal Pay', sub:'Billetera', color:'#0033a0', domain:'personalpay.com.ar', url:'https://personalpay.com.ar', yieldArs: '17,4%' },
+    { id:'claropay',     name:'Claro Pay',    sub:'Billetera', color:'#e2001a', domain:'claropay.com.ar', url:'https://claropay.com.ar', yieldArs: '19,3%' },
+    { id:'cocoscrypto',  name:'Cocos Capital',sub:'FCI / App', color:'#3a3f4a', domain:'cocos.capital', url:'https://cocos.capital', yieldArs: '20,03%' },
+    { id:'ripio',        name:'Ripio',        sub:'App',       color:'#00d1b2', domain:'ripio.com', url:'https://ripio.com', yieldArs: '22,0%' },
+    { id:'lemoncash',    name:'Lemon',        sub:'App',       color:'#8ec400', domain:'lemon.me', url:'https://lemon.me', yieldArs: '19,94%' },
+    { id:'belo',         name:'Belo',         sub:'App',       color:'#7b61ff', domain:'belo.app', url:'https://belo.app', yieldArs: '19,1%' },
+    { id:'fiwind',       name:'Fiwind',       sub:'App',       color:'#3a3f4a', domain:'fiwind.io', url:'https://fiwind.io', yieldArs: '18,0%' },
+    { id:'letsbit',      name:"Let's Bit",    sub:'Exchange',  color:'#3a3f4a', domain:'letsbit.io', url:'https://letsbit.io', yieldArs: '19,0%' },
+  ];
+
   const VOLUME = 100;
   const REFRESH_MS = 30000;
 
@@ -588,6 +650,7 @@
   const $ = (sel) => document.querySelector(sel);
   const grid = $('#mainGrid');
   const yieldGrid = $('#yieldGrid');
+  const arsYieldGrid = $('#arsYieldGrid');
   const othersBody = $('#othersBody');
   const banner = $('#errorBanner');
   const statusDot = $('#statusDot');
@@ -677,6 +740,45 @@
       `;
 
       yieldGrid.appendChild(card);
+    });
+  }
+
+  function renderArsYieldCards(){
+    if(!arsYieldGrid) return;
+    arsYieldGrid.innerHTML = '';
+
+    const sorted = [...ARS_PLATFORMS].sort((a, b) => parsePct(b.yieldArs) - parsePct(a.yieldArs));
+    const maxYieldVal = parsePct(sorted[0]?.yieldArs);
+
+    sorted.forEach((pl, idx) => {
+      const card = document.createElement('div');
+      const isBest = idx === 0 && maxYieldVal > 0;
+
+      card.className = 'card' + (isBest ? ' highlighted' : '');
+
+      const iconHtml = pl.domain
+        ? `<img src="https://www.google.com/s2/favicons?sz=64&domain=${pl.domain}" alt="${pl.name}" width="18" height="18" onerror="this.outerHTML='${initials(pl.name)}'">`
+        : `<span style="color:#fff; font-weight:700;">${initials(pl.name)}</span>`;
+
+      card.innerHTML = `
+        <div>
+          <div class="card-top">
+            <div class="badge" style="background:${pl.color || '#3a3f4a'}">
+              ${iconHtml}
+            </div>
+            <div>
+              <div class="card-name">${pl.name} ${pl.isRef ? '<span class="ref-tag">Referido</span>' : ''}</div>
+              <div class="card-sub">${pl.sub || 'Billetera'}</div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row yield"><span class="lbl">ARS Ganancia Anual</span><span class="val mono">${pl.yieldArs || 'N/A'}</span></div>
+          </div>
+        </div>
+        <a href="${pl.url}" target="_blank" rel="${linkRel(pl)}" class="exchange-link">Ir a ${pl.name} ↗</a>
+      `;
+
+      arsYieldGrid.appendChild(card);
     });
   }
 
@@ -1218,10 +1320,12 @@
     load();
     loadCryptoMarket();
     loadDefi();
+    renderArsYieldCards();
   });
   $('#retryBtn').addEventListener('click', load);
 
   renderYieldCards();
+  renderArsYieldCards();
   buildDolarGrid();
   tickClock();
   setInterval(tickClock, 1000);
