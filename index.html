@@ -602,41 +602,41 @@
 <script>
 (function(){
   const MAIN_EXCHANGES = [
-    { id:'binancep2p', name:'Binance', sub:'P2P', color:'#f0b90b', domain:'binance.com', url:'https://binance.com', yieldPct: { usdt: '3.5%', usdc: '3.0%', dai: '2.8%' } },
-    { id:'bybitp2p',   name:'Bybit',   sub:'P2P', color:'#f7a600', domain:'bybit.com', url:'https://www.bybit.com/invite?ref=2DLEPK&medium=referral&utm_campaign=evergreen&share_to=post', isRef: true, yieldPct: { usdt: '4.0%', usdc: '3.8%', dai: 'N/A' } },
-    { id:'okexp2p',    name:'OKX',     sub:'P2P', color:'#3a3f4a', domain:'okx.com', url:'https://okx.com/join/28412745', isRef: true, yieldPct: { usdt: '3.8%', usdc: '3.5%', dai: 'N/A' } },
-    { id:'nexo',       name:'Nexo',    sub:'Earn Base', color:'#0052ff', domain:'nexo.com', url:'https://nexo.com/ref/aymuw70s32?src=android-link', isRef: true, yieldPct: { usdt: '9.0%', usdc: '9.0%', dai: '9.0%' } },
-    { id:'lemoncash',  name:'Lemon',   sub:'App', color:'#8ec400', domain:'lemon.me', url:'https://lemon.me', yieldPct: { usdt: '4.5%', usdc: '4.5%', dai: '4.0%' } },
-    { id:'belo',       name:'Belo',    sub:'App', color:'#7b61ff', domain:'belo.app', url:'https://belo.app', yieldPct: { usdt: '10.0%', usdc: '3.4%', dai: '3.5%' } },
-    { id:'ripio',      name:'Ripio',   sub:'App', color:'#00d1b2', domain:'ripio.com', url:'https://ripio.com', yieldPct: { usdt: '3.5%', usdc: '3.2%', dai: 'N/A' } },
+    { id:'binancep2p', name:'Binance', sub:'P2P', color:'#f0b90b', domain:'binance.com', url:'https://binance.com', yieldPct: { usdt: '3,5%', usdc: '3,0%', dai: '2,8%' } },
+    { id:'bybitp2p',   name:'Bybit',   sub:'P2P', color:'#f7a600', domain:'bybit.com', url:'https://www.bybit.com/invite?ref=2DLEPK&medium=referral&utm_campaign=evergreen&share_to=post', isRef: true, yieldPct: { usdt: '4,0%', usdc: '3,8%', dai: 'N/A' } },
+    { id:'okexp2p',    name:'OKX',     sub:'P2P', color:'#3a3f4a', domain:'okx.com', url:'https://okx.com/join/28412745', isRef: true, yieldPct: { usdt: '3,8%', usdc: '3,5%', dai: 'N/A' } },
+    { id:'nexo',       name:'Nexo',    sub:'Earn Base', color:'#0052ff', domain:'nexo.com', url:'https://nexo.com/ref/aymuw70s32?src=android-link', isRef: true, yieldPct: { usdt: '9,0%', usdc: '9,0%', dai: '9,0%' } },
+    { id:'lemoncash',  name:'Lemon',   sub:'App', color:'#8ec400', domain:'lemon.me', url:'https://lemon.me', yieldPct: { usdt: '4,5%', usdc: '4,5%', dai: '4,0%' } },
+    { id:'belo',       name:'Belo',    sub:'App', color:'#7b61ff', domain:'belo.app', url:'https://belo.app', yieldPct: { usdt: '10,0%', usdc: '3,4%', dai: '3,5%' } },
+    { id:'ripio',      name:'Ripio',   sub:'App', color:'#00d1b2', domain:'ripio.com', url:'https://ripio.com', yieldPct: { usdt: '3,5%', usdc: '3,2%', dai: 'N/A' } },
     { id:'astropay',   name:'AstroPay',sub:'App', color:'#ff5a5f', domain:'astropay.com', url:'https://astropay.com', yieldPct: { usdt: 'N/A', usdc: 'N/A', dai: 'N/A' } },
   ];
 
   const OTHER_EXCHANGES = [
-    { id:'coindepo',     name:'CoinDepo', sub:'Earn', color:'#0052ff', domain:'coindepo.com', url:'https://coindepo.com', isRef: true, yieldPct: { usdt: '12.0%', usdc: '12.0%', dai: '12.0%' } },
-    { id:'buenbit',      name:'Buenbit', domain:'buenbit.com', url:'https://buenbit.com', yieldPct: { usdt: '5.0%', usdc: '5.0%', dai: '5.0%' } },
-    { id:'letsbit',      name:"Let's Bit", domain:'letsbit.io', url:'https://letsbit.io', yieldPct: { usdt: '4.5%', usdc: '4.5%', dai: 'N/A' } },
-    { id:'fiwind',       name:'Fiwind', domain:'fiwind.io', url:'https://fiwind.io', yieldPct: { usdt: '4.0%', usdc: '4.0%', dai: 'N/A' } },
-    { id:'satoshitango', name:'SatoshiTango', domain:'satoshitango.com', url:'https://satoshitango.com', yieldPct: { usdt: '3.0%', usdc: '3.0%', dai: 'N/A' } },
-    { id:'cryptomkt',    name:'Cryptomkt', domain:'cryptomkt.com', url:'https://cryptomkt.com', yieldPct: { usdt: '2.5%', usdc: '2.5%', dai: 'N/A' } },
-    { id:'decrypto',     name:'Decrypto', domain:'decrypto.la', url:'https://decrypto.la', yieldPct: { usdt: '3.5%', usdc: '3.5%', dai: 'N/A' } },
-    { id:'wallbit',      name:'Wallbit', domain:'wallbit.io', url:'https://wallbit.io', yieldPct: { usdt: '3.0%', usdc: '3.0%', dai: 'N/A' } },
+    { id:'coindepo',     name:'CoinDepo', sub:'Earn', color:'#0052ff', domain:'coindepo.com', url:'https://coindepo.com', isRef: true, yieldPct: { usdt: '12,0%', usdc: '12,0%', dai: '12,0%' } },
+    { id:'buenbit',      name:'Buenbit', domain:'buenbit.com', url:'https://buenbit.com', yieldPct: { usdt: '5,0%', usdc: '5,0%', dai: '5,0%' } },
+    { id:'letsbit',      name:"Let's Bit", domain:'letsbit.io', url:'https://letsbit.io', yieldPct: { usdt: '4,5%', usdc: '4,5%', dai: 'N/A' } },
+    { id:'fiwind',       name:'Fiwind', domain:'fiwind.io', url:'https://fiwind.io', yieldPct: { usdt: '4,0%', usdc: '4,0%', dai: 'N/A' } },
+    { id:'satoshitango', name:'SatoshiTango', domain:'satoshitango.com', url:'https://satoshitango.com', yieldPct: { usdt: '3,0%', usdc: '3,0%', dai: 'N/A' } },
+    { id:'cryptomkt',    name:'Cryptomkt', domain:'cryptomkt.com', url:'https://cryptomkt.com', yieldPct: { usdt: '2,5%', usdc: '2,5%', dai: 'N/A' } },
+    { id:'decrypto',     name:'Decrypto', domain:'decrypto.la', url:'https://decrypto.la', yieldPct: { usdt: '3,5%', usdc: '3,5%', dai: 'N/A' } },
+    { id:'wallbit',      name:'Wallbit', domain:'wallbit.io', url:'https://wallbit.io', yieldPct: { usdt: '3,0%', usdc: '3,0%', dai: 'N/A' } },
     { id:'cocoscrypto',  name:'Cocos Crypto', domain:'cocos.capital', url:'https://cocos.capital', yieldPct: { usdt: 'N/A', usdc: 'N/A', dai: 'N/A' } },
   ];
 
   // Plataformas no bancarizadas con rendimiento en pesos (ARS). Algunas ya
   // aparecen arriba operando stablecoins; otras son fintechs 100% en pesos.
   const ARS_PLATFORMS = [
-    { id:'mercadopago',  name:'Mercado Pago', sub:'Billetera', color:'#00a3e0', domain:'mercadopago.com.ar', url:'https://mercadopago.com.ar', yieldArs: '19.0%' },
-    { id:'uala',         name:'Ualá',         sub:'Billetera', color:'#5c2ec4', domain:'uala.com.ar', url:'https://uala.com.ar', yieldArs: '18.0%' },
-    { id:'naranjax',     name:'Naranja X',    sub:'Billetera', color:'#ff6600', domain:'naranjax.com', url:'https://naranjax.com', yieldArs: '19.0%' },
-    { id:'personalpay',  name:'Personal Pay', sub:'Billetera', color:'#0033a0', domain:'personalpay.com.ar', url:'https://personalpay.com.ar', yieldArs: '19.0%' },
-    { id:'claropay',     name:'Claro Pay',    sub:'Billetera', color:'#e2001a', domain:'claropay.com.ar', url:'https://claropay.com.ar', yieldArs: '18.0%' },
-    { id:'cocoscrypto',  name:'Cocos Capital',sub:'FCI / App', color:'#3a3f4a', domain:'cocos.capital', url:'https://cocos.capital', yieldArs: '20.0%' },
-    { id:'lemoncash',    name:'Lemon',        sub:'App',       color:'#8ec400', domain:'lemon.me', url:'https://lemon.me', yieldArs: '19.0%' },
-    { id:'belo',         name:'Belo',         sub:'App',       color:'#7b61ff', domain:'belo.app', url:'https://belo.app', yieldArs: '19.0%' },
-    { id:'fiwind',       name:'Fiwind',       sub:'App',       color:'#3a3f4a', domain:'fiwind.io', url:'https://fiwind.io', yieldArs: '18.0%' },
-    { id:'letsbit',      name:"Let's Bit",    sub:'Exchange',  color:'#3a3f4a', domain:'letsbit.io', url:'https://letsbit.io', yieldArs: '18.0%' },
+    { id:'mercadopago',  name:'Mercado Pago', sub:'Billetera', color:'#00a3e0', domain:'mercadopago.com.ar', url:'https://mercadopago.com.ar', yieldArs: '19,0%' },
+    { id:'uala',         name:'Ualá',         sub:'Billetera', color:'#5c2ec4', domain:'uala.com.ar', url:'https://uala.com.ar', yieldArs: '18,0%' },
+    { id:'naranjax',     name:'Naranja X',    sub:'Billetera', color:'#ff6600', domain:'naranjax.com', url:'https://naranjax.com', yieldArs: '19,0%' },
+    { id:'personalpay',  name:'Personal Pay', sub:'Billetera', color:'#0033a0', domain:'personalpay.com.ar', url:'https://personalpay.com.ar', yieldArs: '19,0%' },
+    { id:'claropay',     name:'Claro Pay',    sub:'Billetera', color:'#e2001a', domain:'claropay.com.ar', url:'https://claropay.com.ar', yieldArs: '18,0%' },
+    { id:'cocoscrypto',  name:'Cocos Capital',sub:'FCI / App', color:'#3a3f4a', domain:'cocos.capital', url:'https://cocos.capital', yieldArs: '20,0%' },
+    { id:'lemoncash',    name:'Lemon',        sub:'App',       color:'#8ec400', domain:'lemon.me', url:'https://lemon.me', yieldArs: '19,0%' },
+    { id:'belo',         name:'Belo',         sub:'App',       color:'#7b61ff', domain:'belo.app', url:'https://belo.app', yieldArs: '19,0%' },
+    { id:'fiwind',       name:'Fiwind',       sub:'App',       color:'#3a3f4a', domain:'fiwind.io', url:'https://fiwind.io', yieldArs: '18,0%' },
+    { id:'letsbit',      name:"Let's Bit",    sub:'Exchange',  color:'#3a3f4a', domain:'letsbit.io', url:'https://letsbit.io', yieldArs: '18,0%' },
   ];
 
   const VOLUME = 100;
@@ -662,7 +662,7 @@
   function fmtPriceUsd(n){
     if(n === null || n === undefined || isNaN(n)) return '—';
     const decimals = n < 1 ? 4 : 2;
-    return Number(n).toLocaleString('en-US', { minimumFractionDigits:decimals, maximumFractionDigits:decimals });
+    return Number(n).toLocaleString('es-AR', { minimumFractionDigits:decimals, maximumFractionDigits:decimals });
   }
 
   function setNum(el, newVal){
@@ -688,7 +688,13 @@
 
   function parsePct(str){
     if(!str || str === 'N/A') return -1;
-    return parseFloat(str.replace('%',''));
+    return parseFloat(str.replace('%','').replace(',', '.'));
+  }
+
+  // Formatea un número a 2 decimales usando coma (formato argentino), para porcentajes calculados en vivo.
+  function fmtPct(n){
+    if(n === null || n === undefined || isNaN(n)) return '—';
+    return n.toFixed(2).replace('.', ',');
   }
 
   function renderYieldCards(){
@@ -856,7 +862,7 @@
               : `<div class="row compra"><span class="lbl">Comprás a</span><span class="val num mono">${fmt(d.ask)}</span></div>
                  <div class="divider"></div>
                  <div class="row venta"><span class="lbl">Vendés a</span><span class="val num mono">${fmt(d.bid)}</span></div>
-                 <div class="spread">spread ${((d.ask - d.bid) / d.bid * 100).toFixed(2)}%</div>`
+                 <div class="spread">spread ${fmtPct((d.ask - d.bid) / d.bid * 100)}%</div>`
             }
           </div>
         </div>
@@ -986,8 +992,8 @@
         const change24hClass = change24h >= 0 ? 'positive' : 'negative';
         const change7dClass = change7d >= 0 ? 'positive' : 'negative';
 
-        const change24hStr = (change24h > 0 ? '+' : '') + (!isNaN(change24h) ? change24h.toFixed(2) + '%' : '—');
-        const change7dStr = (change7d > 0 ? '+' : '') + (!isNaN(change7d) ? change7d.toFixed(2) + '%' : '—');
+        const change24hStr = (change24h > 0 ? '+' : '') + (!isNaN(change24h) ? fmtPct(change24h) + '%' : '—');
+        const change7dStr = (change7d > 0 ? '+' : '') + (!isNaN(change7d) ? fmtPct(change7d) + '%' : '—');
         
         // Ícono de la moneda provisto por la misma API
         const iconUrl = `https://c1.coinlore.com/img/25x25/${coin.nameid}.png`;
@@ -1074,7 +1080,7 @@
         const change1d = protocol.change_1d;
         const changeClass = change1d >= 0 ? 'positive' : 'negative';
         const changeStr = (change1d === undefined || change1d === null || isNaN(change1d))
-          ? '—' : (change1d > 0 ? '+' : '') + change1d.toFixed(2) + '%';
+          ? '—' : (change1d > 0 ? '+' : '') + fmtPct(change1d) + '%';
 
         card.innerHTML = `
           <div>
@@ -1127,7 +1133,7 @@
           <td class="mono">${pool.symbol || '—'}</td>
           <td>${pool.chain || '—'}</td>
           <td class="mono">$${fmtUsdCompact(pool.tvlUsd)}</td>
-          <td class="crypto-change positive mono">${pool.apy.toFixed(2)}%</td>
+          <td class="crypto-change positive mono">${fmtPct(pool.apy)}%</td>
         `;
         tbody.appendChild(tr);
       });
