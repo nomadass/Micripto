@@ -570,7 +570,9 @@
   }
 }
 /* ============================================================
-   FORMULARIO DE CONTACTO — 
+   FORMULARIO DE CONTACTO — bloque completo y consolidado
+   Reemplazá TODAS las reglas .contact-* y .footer-contact-line
+   que hayas pegado antes por este bloque único.
    ============================================================ */
 
 .contact-section{
